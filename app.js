@@ -3,7 +3,7 @@ const mime = require('mime-types');
 const { getNow, getMedia, getCode, addNow, addNowForTomorrow, getCodeForTomorrow, getNowForTomorrow } = require('./function.js');
 const mongo = require('./mongo.js')
 const nowSchema = require('./schemas/now-schema.js')
-const { keepAlive } = require('server.js')
+const { keepAlive } = require('./server.js')
 const connect = async () => {
     await mongo().then(async mongoose => {
         try {

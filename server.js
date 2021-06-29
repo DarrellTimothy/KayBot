@@ -5,6 +5,6 @@ server.all('/', (req, res)=>{
 })
 // Server
 function keepAlive(){
-    server.listen(process.env.PORT || 80, '0.0.0.0');
+    server.listen(process.env.PORT || 8080, '0.0.0.0');
 }
 module.exports = keepAlive;
