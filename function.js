@@ -1,7 +1,7 @@
-const moment = require('moment-timezone');
-const mime = require('mime-types');
+const moment = require('./moment-timezone');
+const mime = require('./mime-types');
 const method = require('./methods.js')
-const { decryptMedia } = require('@open-wa/wa-automate')
+const { decryptMedia } = require('./@open-wa/wa-automate')
 
 module.exports = {
     getCode() {
