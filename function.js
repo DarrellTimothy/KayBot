@@ -3,6 +3,7 @@ const mime = require('mime-types');
 const method = require('./methods.js')
 const { decryptMedia } = require('@open-wa/wa-automate')
 
+// Exports
 module.exports = {
     getCode() {
         //  Get Today GMT+7 Time

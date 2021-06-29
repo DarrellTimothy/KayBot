@@ -1,6 +1,7 @@
 const mongo = require('./mongo.js')
 const nowSchema = require('./schemas/now-schema.js')
 
+// Get Now Method
 module.exports.getNow = async (date) => {
     return await mongo().then(async mongoose => {
         try {
