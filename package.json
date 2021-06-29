@@ -1,0 +1,20 @@
+{
+  "name": "kaybot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarrellTimothy/KayBot.git"
+  },
+  "author": "Darrell Timothy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DarrellTimothy/KayBot/issues"
+  },
+  "homepage": "https://github.com/DarrellTimothy/KayBot#readme"
+}
