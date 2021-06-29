@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/DarrellTimothy/KayBot/issues"
   },
-  "homepage": "https://github.com/DarrellTimothy/KayBot#readme"
+  "homepage": "https://github.com/DarrellTimothy/KayBot#readme",
+  "dependencies": {
+    "express": "*"
+  }
 }
