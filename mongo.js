@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const mongoPath = 'mongodb+srv://DarrellTimothy:Dts21208@database.iwdu7.mongodb.net/database?retryWrites=true&w=majority'
+const mongoPath = 'mongodb://localhost:27017/database'
 
 // Server Function
 module.exports = async () => {

@@ -50,16 +50,14 @@ module.exports.setNow = async (date, now) => {
         try {
             const result = await nowSchema.findOneAndUpdate({
                 date
+            }, {
+                date,
+                now, 
+            }, {
+                upsert: true,
+                new: true                
             })
-            if (result) {
-                let now = now
-            } else {
-                await nowSchema({
-                    date,
-                    now
-                }).save() 
-             }
-            return result
+            return result.now
         } finally {
             mongoose.connection.close()
         }
