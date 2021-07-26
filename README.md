@@ -1,4 +1,4 @@
-# KayBot 1.0.0
+# KayBot 1.0.1
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -15,7 +15,7 @@ Supports "Info & OTW", "Urgent", And any custom notes.
 
 - `Help` - Show Up Help Markdown
 
-- `Ping` - Ping The Bot
+- `Ping` - Returns bot's latency 
 
 **To-Do:**
 - Auto-detect "`Now`" on startup
@@ -35,7 +35,7 @@ Automatic Code & Now Value
 -u (Put "Urgent" At Caption After Code)
 `Extra Note`:  
 Required if there isn't `Media`  
-Optional if there is `Media`
+Optional if there is `Media`  
 
 - Now
 ```-now [flags/date]```  
@@ -59,3 +59,10 @@ Coming Soon Feature
 - Ping  
 ```-ping```  
 Check If The Bot Is Online/Offline
+
+**Extra Info:**   
+- After posting, the bot will respond with a message indicating the caption, and the type. There's also a system for Shopee only called "Receiver Dataᴮᴱᵀᴬ" that will read the receiver's name and return it at the logging but it's currently disabled until its stable, because it's jamming the server.  
+
+**ChangeLog**:   
+1.0.1: Ping will not just respond 'pong!' but will give accurate ping latency.  
+Added Logging on Markdown (available at 1.0.0 but not marked down)

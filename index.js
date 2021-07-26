@@ -65,7 +65,10 @@ client.on('message', async message => {
 
     const command = args.shift().toLowerCase() 
     if (command === 'ping') {
-        message.reply(`Pong!`);
+        let now = new Date()
+        let timestamp = new Date(message.timestamp * 1000)
+        let ping = Math.round(now - timestamp)
+        return message.reply(`*Pong!*\nPing: ${ping}ms`)
     }
 
     if(command === 'post') {
