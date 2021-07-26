@@ -1,132 +1,113 @@
-const moment = require('moment-timezone');
-const mime = require('mime-types');
-const method = require('./methods.js')
-const { decryptMedia } = require('@open-wa/wa-automate')
+const { getNow, getCode, addNow, addNowForTomorrow, getCodeForTomorrow, getNowForTomorrow, setNow, checkShopType, getReceiverName } = require('./codes.js')
 
+
+// Functions 
+const getCaption = async () => {
+    let code = await getCode()
+    let now = await getNow()
+    return `${code}${now}`
+}
+
+const getCaptionForTomorrow = async () => {
+    let code = await getCodeForTomorrow()
+    let now = await getNowForTomorrow()
+    return `${code}${now}`
+}
+
+const getOrderData = async (base64, worker) => {
+    var image = `data:image/jpg;base64,${base64.toString('base64')}`
+
+    const { data: { text } } = await worker.recognize(image)
+
+    if (!checkShopType(text)) return false
+    
+    let data = getReceiverName(text)
+
+    return data
+}
 // Exports
 module.exports = {
-    getCode() {
-        //  Get Today GMT+7 Time
-        let date  = moment().tz("Asia/Jakarta").format();  
+    async getOrderData(base64, worker) {
+        var image = `data:image/jpg;base64,${base64.toString('base64')}`
 
-        // Ghost Variable
-        let day = ""
+        const { data: { text } } = await worker.recognize(image)
 
-        // Decrpyting 
-    switch (new Date(date).getDay()) {
-        case 0:
-            day = "Mg";
-        break;
-        case 1:
-            day = "Sn";
-        break;
-        case 2:
-            day = "Sl";
-        break;
-        case 3:
-            day = "Rb";
-          break;
-        case 4:
-            day = "Km";
-        break;
-        case 5:
-            day = "Jm";
-        break;
-        case 6:
-            day = "Sb";
-      }
+        if (!checkShopType(text)) return false
+        
+        let data = getReceiverName(text)
 
-        // Data Return
-        return day
+        return data
+
+    }, 
+
+    async process(args, media, worker) {
+        let data = {
+            caption: '',
+            code: '',
+            receiver: ''
+        }
+
+        let flags = args.join().toLowerCase().split(',')
+        // Check Media
+        if (media) {
+            data.code = 'M'
+            //data.receiver = await getOrderData(media.data, worker)
+        } else {
+            data.code = 'P'
+        }
+        // Check Tomorrow Flag
+        if (flags.includes('-t')) {
+            args = args.filter(function(item) {
+                return item !== '-t'
+            })
+            data.caption = await getCaptionForTomorrow()
+            data.code += 'T'
+            await addNowForTomorrow()
+        } else {
+            data.caption = await getCaption();
+            data.code += 'N'
+            await addNow()
+        }
+        // Check Info/OTW Flag
+        if (flags.includes('-i')) {
+            args = args.filter(function(item) {
+                return item !== '-i'
+            })
+            data.caption += ' Info'
+            data.code += 'I'
+        } else if (flags.includes('-o')) {
+            args = args.filter(function(item) {
+                return item !== '-o'
+            })
+            data.caption += ' Otw'
+            data.code += 'O'
+        } 
+
+        if (flags.includes('-cc')) {
+            args = args.filter(function(item) {
+                return item !== '-cc'
+            })
+            data.caption += ' COC'
+            data.code += 'COC'
+        } else if (flags.includes('-cd')) {
+            args = args.filter(function(item) {
+                return item !== '-cd'
+            })
+            data.caption += ' COD'
+            data.code += 'COD'
+        } else if (flags.includes('-u')) {
+            args = args.filter(function(item) {
+                return item !== '-u'
+            })
+            data.caption += ' Urgent'
+            data.code += 'U'
+        }
+
+        if (args) {
+            data.order = args.join(" ")
+        } 
+        return data
     },
 
-    async getMedia(message) {
-        const filename = `${message.t}.${mime.extension(message.mimetype)}`;
-        const mediaData = await decryptMedia(message);
-        const imageBase64 = `data:${message.mimetype};base64,${mediaData.toString('base64')}`
-
-        return imageBase64
-    },
-
-    async getNow() {
-
-        var today = new Date(moment().tz("Asia/Jakarta").format());
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-
-        today = dd + '/' + mm + '/' + yyyy;
-
-        return await method.getNow(today)
-    },
-
-    async addNow() {
-
-        var today = new Date(moment().tz("Asia/Jakarta").format());
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-
-        today = dd + '/' + mm + '/' + yyyy;   
-        console.log(`2`, today)
-        return await method.addNow(today)
-    },
-
-    async addNowForTomorrow() {
-
-        var today = new Date(moment().tz("Asia/Jakarta").add(1, 'days').format());
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-
-        today = dd + '/' + mm + '/' + yyyy;   
-        console.log(`1`, today)
-        return await method.addNow(today)
-    },
-
-    async getNowForTomorrow() {
-        let date1  = moment().tz("Asia/Jakarta").add(1, 'days').format("DD/MM/YYYY");
-
-        return await method.getNow(date1)
-    },
-
-    getCodeForTomorrow() {
-        //  Get Today GMT+7 Time
-        let date1  = moment().tz("Asia/Jakarta").add(1, 'days').format();  
-
-        // Ghost Variable
-        let day = ""
-
-        // Decrpyting 
-    switch (new Date(date1).getDay()) {
-        case 0:
-            day = "Mg";
-        break;
-        case 1:
-            day = "Sn";
-        break;
-        case 2:
-            day = "Sl";
-        break;
-        case 3:
-            day = "Rb";
-          break;
-        case 4:
-            day = "Km";
-        break;
-        case 5:
-            day = "Jm";
-        break;
-        case 6:
-            day = "Sb";
-      }
-
-        // Data Return
-        return day
-    },
-
-    async setNow(date, now) {
-        return await method.setNow(date, now)
-    }
 
 }

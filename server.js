@@ -5,6 +5,7 @@ server.all('/', (req, res)=>{
 })
 // Server
 function keepAlive(){
+    server.use(express.static(__dirname + '/files'))
     server.listen(process.env.PORT || 8080, '0.0.0.0');
 }
 module.exports = keepAlive;
