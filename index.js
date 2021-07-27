@@ -22,7 +22,7 @@ const moment = require('moment-timezone');
 const { createWorker } = require(`tesseract.js`)
 
 // Codes
-const { setNow, getNow, getNowForTomorrow, loadWorker } = require('./codes.js')
+const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow } = require('./codes.js')
 const { getOrderData } = require('./function.js')
 
 // Summon & Load Worker
@@ -64,6 +64,7 @@ client.on('message', async message => {
     .split(" ");
 
     const command = args.shift().toLowerCase() 
+
     if (command === 'ping') {
         let now = new Date()
         let timestamp = new Date(message.timestamp * 1000)
@@ -107,13 +108,17 @@ client.on('message', async message => {
     } 
 
     if (command === 'now') {
+        const dateRegex = new RegExp("^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$")
         if (args[0]) {
         if (args[0].toLowerCase() === '-t') {
             let date = moment().tz("Asia/Jakarta").add(1, 'days').format("DD/MM/YYYY");  
             let now = await getNowForTomorrow()
             return message.reply(`Getting *Now* For ${date}.\nNow: ${now}`)
+        } else if (dateRegex.test(args[0])) {
+            let now = await getSpecificNow(args[0])
+            return message.reply(`Getting *Now* For ${date}.\nNow: ${now}`)
         }
-    }
+    } 
         let date = moment().tz("Asia/Jakarta").format("DD/MM/YYYY");  
         let now = await getNow()
        return await message.reply(`Getting *Now* For ${date}.\nNow: ${now}`)
@@ -141,15 +146,15 @@ client.on('message', async message => {
     }
     
     if (command === 'help') {
-        if (!args[0]) {
-        return await message.reply(
-            `*KayBot* Help Page\n\n- \`\`\`post [flag] <media||text>\`\`\`\nFor Posting New Order.\n\n-\`\`\`now <date||flag>\`\`\`\n To Check What Is The "Now".\n\n-\`\`\`setnow <date||flag> <now>\`\`\`\n To set up "now" data.\n\n-\`\`\`ping\`\`\`\nTo check the bot ping.\n\nSee specific help by using \`\`\`help [commandName]\`\`\` or see flags by using \`\`\`help flags\`\`\``
-            )
-        } else if (args[0] === 'flags') {
-            message.reply(
-                `*KayBot* Help Page - \`\`\`Flags\`\`\`\n\n"-n" : Now\n\n "-t": Tomorrow\n\n"-o": OTW\n\n "-i": Info\n\n "-cc": COC\n\n"-cd": COD`
-            )
-            }
+        return message.reply(`See full markdown at GitHub:\nhttps://github.com/DarrellTimothy/KayBot#readme`)
+    }
+
+    if (command == 'itt') {
+        message.reply('Please Wait! Processing Data...')
+        let base64 = (await message.downloadMedia()).data
+        var image = `data:image/jpg;base64,${base64.toString('base64')}`
+        const { data: { text } } = await worker.recognize(image)
+        return message.reply(`${text}`)
     }
 
 

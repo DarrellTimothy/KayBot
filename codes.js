@@ -49,6 +49,10 @@ module.exports = {
         return await method.getNow(today)
     },
 
+    async getSpecificNow(date) {
+        return await method.getNow(date)
+    },
+
     async addNow() {
         var today = new Date(moment().tz("Asia/Jakarta").format());
         var dd = String(today.getDate()).padStart(2, '0');
