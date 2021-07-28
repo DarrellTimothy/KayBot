@@ -1,4 +1,4 @@
-# KayBot 1.0.2
+# KayBot 1.0.3
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -63,10 +63,15 @@ Check If The Bot Is Online/Offline
 ```-itt <media>```  
 Transform Image To Text, Indonesian Only (1.0.2).  
 
+- Send  
+```-send <message/&media>```  
+Send message or with media to Group. Especially for checking whether a product is ready or not.  
+
 **Extra Info:**   
 - After posting, the bot will respond with a message indicating the caption, and the type. There's also a system for Shopee only called "Receiver Dataᴮᴱᵀᴬ" that will read the receiver's name and return it at the logging but it's currently disabled until its stable, because it's jamming the server.  
 
 **ChangeLog**:   
 1.0.1: Ping will not just respond 'pong!' but will give accurate ping latency.  
 Added Logging on Markdown (available at 1.0.0 but not marked down)  
-1.0.2: Supports `now` for today without -n and deletes the -n flag. Added New Command: '-itt" (Image To Textᴮᴱᵀᴬ) Might take a bit long of time
+1.0.2: Supports `now` for today without -n and deletes the -n flag. Added New Command: '-itt" (Image To Textᴮᴱᵀᴬ) Might take a bit long of time  
+1.0.3: Added `send` to send message to Group.

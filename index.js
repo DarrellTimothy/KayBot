@@ -56,7 +56,7 @@ client.on('ready', () => {
     console.log('KayBot Is Ready To Go!');
 });
 
-client.on('message', async message => {
+client.on('message' || `MESSAGE_CREATE`, async message => {
     const groupID = `62811325432-1606056231@g.us` // `6281230126250-1624938457@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
     const prefix = 'k'
     const args = message.body.slice(prefix.length)
@@ -70,6 +70,19 @@ client.on('message', async message => {
         let timestamp = new Date(message.timestamp * 1000)
         let ping = Math.round(now - timestamp)
         return message.reply(`*Pong!*\nPing: ${ping}ms`)
+    }
+
+    if (command === 'send') {
+        if (message.hasMedia) {
+            media = await message.downloadMedia()
+            client.sendMessage(groupID, `${args.join(" ")}`, {
+                media: media
+            })
+            return message.reply('Sended!')
+        } else {
+            client.sendMessage(groupID, `${args.join(" ")}`)
+            return message.reply(`Sended!`)
+        }
     }
 
     if(command === 'post') {
