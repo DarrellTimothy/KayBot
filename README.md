@@ -23,8 +23,9 @@ Supports "Info & OTW", "Urgent", And any custom notes.
 - Establish Receiver Data To Stable
 
 **Help**
-- Post  
-```-post [media] [flags] [Extra Note]```   
+- Post
+```-post [media] [flags] [Extra Note]```    
+Alias: `p`  
 `Post` will auto-posting to KPN Group,
 Automatic Code & Now Value  
 `Media` (Optional): Put media to send, if there isn't media attached, it will post a caption with the `Extra Note` as the order.  
@@ -35,7 +36,8 @@ Automatic Code & Now Value
 -u (Put "Urgent" At Caption After Code)
 `Extra Note`:  
 Required if there isn't `Media`  
-Optional if there is `Media`  
+Optional if there is `Media`    
+`Post` is highly recommended to execute one-by-one to prevent bugs.
 
 - Now
 ```-now [flags/date]```  
@@ -74,4 +76,5 @@ Send message or with media to Group. Especially for checking whether a product i
 1.0.1: Ping will not just respond 'pong!' but will give accurate ping latency.  
 Added Logging on Markdown (available at 1.0.0 but not marked down)  
 1.0.2: Supports `now` for today without -n and deletes the -n flag. Added New Command: '-itt" (Image To Textᴮᴱᵀᴬ) Might take a bit long of time  
-1.0.3: Added `send` to send message to Group.
+1.0.3: Added `send` to send message to Group.  
+1.0.4: Added `p` as an alias for `post`

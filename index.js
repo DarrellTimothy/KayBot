@@ -85,7 +85,7 @@ client.on('message' || `MESSAGE_CREATE`, async message => {
         }
     }
 
-    if(command === 'post') {
+    if(command === 'post' || command === 'p') {
         let data;
         let media;
 
