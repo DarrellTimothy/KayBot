@@ -21,6 +21,12 @@ const moment = require('moment-timezone');
 // Image To Text
 const { createWorker } = require(`tesseract.js`)
 
+// FS
+const fs = require('fs')
+
+// Session File Path
+const SESSION_FILE_PATH = './session.json'
+
 // Codes
 const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow } = require('./codes.js')
 const { getOrderData } = require('./function.js')
@@ -32,8 +38,18 @@ const worker = createWorker({
 
 loadWorker(worker)
 /* Wake Up Phase */
+// Load session data 
+let sessionData;
+if(fs.existsSync(SESSION_FILE_PATH)) {
+    sessionData = require(SESSION_FILE_PATH);
+}
+
 // Summon Client
-const client = new Client();
+const client = new Client({
+    session: sessionData
+});
+
+
 
 // Connect To Database Function
 const connect = async () => {
@@ -54,6 +70,20 @@ client.on('qr', (qr) => {
 
 client.on('ready', () => {
     console.log('KayBot Is Ready To Go!');
+});
+
+client.on('disconnected', () => {
+    console.log('Client has disconnected')
+})
+
+// Save session values to the file upon successful auth
+client.on('authenticated', (session) => {
+    sessionData = session;
+    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
 });
 
 client.on('message' || `MESSAGE_CREATE`, async message => {

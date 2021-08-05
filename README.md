@@ -1,9 +1,9 @@
-# KayBot 1.0.4
+# KayBot 1.0.5
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
 - Settable database directly from WhatsApp
-- Soon More!
+- Image To Text
 
 **Commands:**
 - `Post` - To Post SPK  
@@ -77,4 +77,5 @@ Send message or with media to Group. Especially for checking whether a product i
 Added Logging on Markdown (available at 1.0.0 but not marked down)  
 1.0.2: Supports `now` for today without -n and deletes the -n flag. Added New Command: '-itt" (Image To Textᴮᴱᵀᴬ) Might take a bit long of time  
 1.0.3: Added `send` to send message to Group.  
-1.0.4: Added `p` as an alias for `post`
+1.0.4: Added `p` as an alias for `post`  
+1.0.5: Client side database enhancement, Faster launch by saving session, notification on client side while disconnected 
