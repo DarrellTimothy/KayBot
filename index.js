@@ -141,20 +141,20 @@ client.on('message', async message => {
 
         // Check if it plain type
         if (data.code.split()[0] === 'P') {
-            client.sendMessage(groupID, `${data.caption}\n${data.order}`)
+            await client.sendMessage(groupID, `${data.caption}\n${data.order}`)
             .then((msg) => {
                 data.message = msg
             })
         } else {
             if (!data.order) {
-            client.sendMessage(groupID, `${data.caption}`, {
+            await client.sendMessage(groupID, `${data.caption}`, {
                 media: media
             })
             .then((msg) => {
                 data.message = msg
             })
             } else {
-                client.sendMessage(groupID, `${data.caption}\n${data.order}`, {
+                await client.sendMessage(groupID, `${data.caption}\n${data.order}`, {
                     media: media
                 })
                 .then((msg) => {
@@ -164,7 +164,8 @@ client.on('message', async message => {
         }
         await data.message.reply(confirmMessage, message.from)
         if (message.hasMedia) receiver = await getOrderData(media.data, worker)
-        await data.message.reply(`Posted ${data.caption}.\nRequested By: ${message.from}\nReceiverᴮᴱᵀᴬ: ${receiver}`)
+        await data.message.reply(`Posted ${data.caption}.\nRequested By: ${message.from}\nReceiverᴮᴱᵀᴬ: ${receiver}`, logID)
+        delete data.message
         console.log(data)
 
     } 
