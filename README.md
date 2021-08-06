@@ -1,9 +1,10 @@
-# KayBot 1.0.5
+# KayBot 1.0.6
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
 - Settable database directly from WhatsApp
 - Image To Text
+- Advanced Logging Feature
 
 **Commands:**
 - `Post` - To Post SPK  
@@ -37,7 +38,8 @@ Automatic Code & Now Value
 `Extra Note`:  
 Required if there isn't `Media`  
 Optional if there is `Media`    
-`Post` is highly recommended to execute one-by-one to prevent bugs.
+`Post` is highly recommended to execute one-by-one to prevent bugs called `Topology Closed`.  
+`Post` will log to Logging Group if it worked, and if there's media, the "`itt` upgraded" feature will detect the receiver name for better tracing when needed.
 
 - Now
 ```-now [flags/date]```  
@@ -78,4 +80,5 @@ Added Logging on Markdown (available at 1.0.0 but not marked down)
 1.0.2: Supports `now` for today without -n and deletes the -n flag. Added New Command: '-itt" (Image To Textᴮᴱᵀᴬ) Might take a bit long of time  
 1.0.3: Added `send` to send message to Group.  
 1.0.4: Added `p` as an alias for `post`  
-1.0.5: Client side database enhancement, Faster launch by saving session, notification on client side while disconnected 
+1.0.5: Client side database enhancement, Faster launch by saving session, notification on client side while disconnected   
+1.0.6: Updated confirmation message to reply the post message itself. KayBot will start posting logs on the logging group. If there's ghost post sended, it will return an error message now.

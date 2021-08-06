@@ -21,6 +21,9 @@ const moment = require('moment-timezone');
 // Image To Text
 const { createWorker } = require(`tesseract.js`)
 
+// Mongoose
+require(`./mongo.js`)
+
 // FS
 const fs = require('fs')
 
@@ -29,7 +32,7 @@ const SESSION_FILE_PATH = './session.json'
 
 // Codes
 const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow } = require('./codes.js')
-const { getOrderData } = require('./function.js')
+const { getOrderData } = require('./function.js');
 
 // Summon & Load Worker
 const worker = createWorker({
@@ -86,8 +89,12 @@ client.on('authenticated', (session) => {
     });
 });
 
-client.on('message' || `MESSAGE_CREATE`, async message => {
-    const groupID = `62811325432-1606056231@g.us` // `6281230126250-1624938457@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
+// Variable
+const groupID = `62811325432-1606056231@g.us` // `6281230126250-1624938457@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
+const logID = `6281230126250-1624938457@g.us` // `6281230126250-1624938457@g.us` = Test;
+
+client.on('message', async message => {
+
     const prefix = 'k'
     const args = message.body.slice(prefix.length)
     .trim()
@@ -118,7 +125,8 @@ client.on('message' || `MESSAGE_CREATE`, async message => {
     if(command === 'post' || command === 'p') {
         let data;
         let media;
-
+        let receiver;
+        if (!message.hasMedia || !args) return message.reply('Media/Argument Needed.')
         message.reply(`Ok! Processing Data...\nPlease Wait!`)
 
         // Check Media--
@@ -129,25 +137,36 @@ client.on('message' || `MESSAGE_CREATE`, async message => {
             data = await process(args)
         }
         
+        const confirmMessage = `Successfully posted ${data.caption}\nType: ${data.code}`;
 
         // Check if it plain type
         if (data.code.split()[0] === 'P') {
             client.sendMessage(groupID, `${data.caption}\n${data.order}`)
+            .then((msg) => {
+                data.message = msg
+            })
         } else {
             if (!data.order) {
             client.sendMessage(groupID, `${data.caption}`, {
                 media: media
             })
+            .then((msg) => {
+                data.message = msg
+            })
             } else {
                 client.sendMessage(groupID, `${data.caption}\n${data.order}`, {
                     media: media
+                })
+                .then((msg) => {
+                    data.message = msg
                 })                
             }
         }
+        await data.message.reply(confirmMessage, message.from)
+        if (message.hasMedia) receiver = await getOrderData(media.data, worker)
+        await data.message.reply(`Posted ${data.caption}.\nRequested By: ${message.from}\nReceiverᴮᴱᵀᴬ: ${receiver}`)
         console.log(data)
-        // Check if there's receiver
-        if (!data.receiver) return message.reply(`Successfully posted ${data.caption}\nType: ${data.code}`)
-        else return message.reply(`Successfully posted ${data.caption}\nType: ${data.code}`)
+
     } 
 
     if (command === 'now') {
@@ -199,13 +218,11 @@ client.on('message' || `MESSAGE_CREATE`, async message => {
         const { data: { text } } = await worker.recognize(image)
         return message.reply(`${text}`)
     }
-
-
-
-
-
 })
 
+module.exports = {
+    client
+}
+
 client.initialize()
-keepAlive()
 connect()

@@ -44,14 +44,12 @@ module.exports = {
         let data = {
             caption: '',
             code: '',
-            receiver: ''
         }
 
         let flags = args.join().toLowerCase().split(',')
         // Check Media
         if (media) {
             data.code = 'M'
-            //data.receiver = await getOrderData(media.data, worker)
         } else {
             data.code = 'P'
         }
