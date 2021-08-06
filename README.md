@@ -1,4 +1,4 @@
-# KayBot 1.7.1
+# KayBot 1.7.2
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -85,4 +85,5 @@ Added Logging on Markdown (available at 1.0.0 but not marked down)
 1.0.6: Updated confirmation message to reply the post message itself. KayBot will start posting logs on the logging group. If there's ghost post sended, it will return an error message now.  
 1.7.0: Changed Version Formatting, Fixed **MAJOR** Bug Causing
 unwanted message received as the bot's command and returns. Whitelisting added to TDL  
-1.7.1: Added Whitelisting. This bot account is officially private while the source code is still public.
+1.7.1: Added Whitelisting. This bot account is officially private while the source code is still public.  
+1.7.2: Fixed `-post` no argument but with media bug.

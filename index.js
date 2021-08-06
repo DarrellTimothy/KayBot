@@ -90,7 +90,7 @@ client.on('authenticated', (session) => {
 });
 
 // Variable
-const groupID = `6281230126250-1624938457@g.us` // `6281230126250-1624938457@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
+const groupID = `62811325432-1606056231@g.us` // `6281230126250-1624938457@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
 const logID = `6281230126250-1624938457@g.us` // `6281230126250-1624938457@g.us` = Test;
 
 client.on('message', async message => {
@@ -140,7 +140,7 @@ client.on('message', async message => {
         let data;
         let media;
         let receiver;
-        if (message.body === '-post') return message.reply('Media/Argument Needed.')
+        if (message.body === '-post' && !message.hasMedia) return message.reply('Media/Argument Needed.')
         message.reply(`Ok! Processing Data...\nPlease Wait!`)
 
         // Check Media--
