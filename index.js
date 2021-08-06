@@ -90,18 +90,37 @@ client.on('authenticated', (session) => {
 });
 
 // Variable
-const groupID = `62811325432-1606056231@g.us` // `6281230126250-1624938457@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
+const groupID = `6281230126250-1624938457@g.us` // `6281230126250-1624938457@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
 const logID = `6281230126250-1624938457@g.us` // `6281230126250-1624938457@g.us` = Test;
 
 client.on('message', async message => {
 
-    const prefix = 'k'
+    const prefix = '-'
     const args = message.body.slice(prefix.length)
     .trim()
     .split(" ");
 
     const command = args.shift().toLowerCase() 
 
+
+    // Security Check.
+    /*
+    let gate = []
+
+    if (message.from != `6281330900175s@c.us`) gate.push(true) 
+    else if (message.from === `6281330900175s@c.us`) gate.push(false)
+    if (message.from != `62811325432@c.us`) gate.push(true)
+    else if (message.from === `62811325432@c.us`) gate.push(false)
+    if (message.from != `6281230126250@c.us`) gate.push(true)
+    else if (message.from === `6281230126250@c.us`) gate.push(false)
+    if (message.from != `6282143316219@c.us`) gate.push(true)
+    else if (message.from === `6282143316219@c.us`) gate.push(false)
+    if (message.from != `6281330900157@c.us`) gate.push(true)
+    else if (message.from === `6281330900157@c.us`) gate.push(false)
+    if (gate.includes(false)) gate.push('safe')
+     */
+    
+    if (!message.body.toLowerCase().startsWith(prefix)) return console.log('tyuh')
     if (command === 'ping') {
         let now = new Date()
         let timestamp = new Date(message.timestamp * 1000)
@@ -122,7 +141,7 @@ client.on('message', async message => {
         }
     }
 
-    if(command === 'post' || command === 'p') {
+    if (command === 'post' || command === 'p') {
         let data;
         let media;
         let receiver;
