@@ -1,10 +1,11 @@
-# KayBot 1.7.0
+# KayBot 1.7.1
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
 - Settable database directly from WhatsApp
 - Image To Text
 - Advanced Logging Feature
+- Whitelisting
 
 **Commands:**
 - `Post` - To Post SPK  
@@ -21,9 +22,8 @@ Supports "Info & OTW", "Urgent", And any custom notes.
 **To-Do:**
 - Auto-detect "`Now`" on startup
 - Check now for any date
-- Establish Receiver Data To Stable
-- Whitelisting
-
+- Establish Receiver Data To Stable  
+ 
 **Help**
 - Post
 ```-post [media] [flags] [Extra Note]```    
@@ -84,4 +84,5 @@ Added Logging on Markdown (available at 1.0.0 but not marked down)
 1.0.5: Client side database enhancement, Faster launch by saving session, notification on client side while disconnected   
 1.0.6: Updated confirmation message to reply the post message itself. KayBot will start posting logs on the logging group. If there's ghost post sended, it will return an error message now.  
 1.7.0: Changed Version Formatting, Fixed **MAJOR** Bug Causing
-unwanted message received as the bot's command and returns. Whitelisting added to TDL
+unwanted message received as the bot's command and returns. Whitelisting added to TDL  
+1.7.1: Added Whitelisting. This bot account is officially private while the source code is still public.

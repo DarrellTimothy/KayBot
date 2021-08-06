@@ -104,22 +104,17 @@ client.on('message', async message => {
 
 
     // Security Check.
-    /*
+   
     let gate = []
 
-    if (message.from != `6281330900175s@c.us`) gate.push(true) 
-    else if (message.from === `6281330900175s@c.us`) gate.push(false)
-    if (message.from != `62811325432@c.us`) gate.push(true)
-    else if (message.from === `62811325432@c.us`) gate.push(false)
-    if (message.from != `6281230126250@c.us`) gate.push(true)
-    else if (message.from === `6281230126250@c.us`) gate.push(false)
-    if (message.from != `6282143316219@c.us`) gate.push(true)
-    else if (message.from === `6282143316219@c.us`) gate.push(false)
-    if (message.from != `6281330900157@c.us`) gate.push(true)
-    else if (message.from === `6281330900157@c.us`) gate.push(false)
-    if (gate.includes(false)) gate.push('safe')
-     */
-    
+    if (message.from === `6281330900175@c.us`) gate.push(true)
+    if (message.from === `62811325432@c.us`) gate.push(true)
+    if (message.from === `6281230126250@c.us`) gate.push(true)
+    if (message.from === `6282143316219@c.us`) gate.push(true)
+    if (message.from === `6281330900157@c.us`) gate.push(true)
+    if (!gate.includes(true)) return
+   
+
     if (!message.body.toLowerCase().startsWith(prefix)) return console.log('tyuh')
     if (command === 'ping') {
         let now = new Date()
