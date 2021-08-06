@@ -126,7 +126,7 @@ client.on('message', async message => {
         let data;
         let media;
         let receiver;
-        if (!message.hasMedia || !args) return message.reply('Media/Argument Needed.')
+        if (message.body === '-post') return message.reply('Media/Argument Needed.')
         message.reply(`Ok! Processing Data...\nPlease Wait!`)
 
         // Check Media--
