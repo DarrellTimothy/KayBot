@@ -1,4 +1,4 @@
-# KayBot 1.8.2
+# KayBot 1.8.3
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -38,9 +38,15 @@ Automatic Code & Now Value
 `Extra Note`:  
 Required if there isn't `Media`  
 Optional if there is `Media`    
-`Post` is highly recommended to execute one-by-one to prevent bugs called `Topology Closed`.  
-`Post` will log to Logging Group if it worked, and if there's media, the "`itt` upgraded" feature will detect the receiver name for better tracing when needed.  
+`Post` is highly recommended to execute one-by-one to prevent bugs called `Topology Closed`.   
 `Post` is **highly recommended** to be just executed maximum 2 in the same time. Posting 3 in the same time has small chance to have some "failure", Posting 4 in the same time has big chance of failure, Posting 5+ are almost guaranteed to have a failure.
+
+- Logging (Post)  
+Logging to `logID` (`Post` Command)  
+Log will logging this data: `Requester`, `Receiverᴮᴱᵀᴬ`, `Courier Name`, `Time`.  
+`Courier Name` Supports:  
+Tokopedia: GoSend, Kurir Rekomendasi, AnterAja, GrabExpress, JNE Trucking.
+Shopee: Reguler (AnterAja/SiCepat), SiCepat Halu, SiCepat Gokil, AnterAja PakEkoAja, JNE Reguler, Instant Courier (GoJek/Grab)
 
 - Now
 ```-now [flags/date]```  
@@ -89,4 +95,5 @@ unwanted message received as the bot's command and returns. Whitelisting added t
 1.7.2: Fixed `-post` no argument but with media bug.  
 1.8.0: Added extra note on `post` markdown, Stabilize receiver name log for Shopee, Receiver Logging now supports Tokopedia, `post` will now log time.  
 1.8.1: Fixed time logging bug  
-1.8.2: More accurate receiver logging for Shopee (Unwanted words might still apply. Post Logging will now log the courier name/type (Shopee Only)
+1.8.2: More accurate receiver logging for Shopee (Unwanted words might still apply. Post Logging will now log the courier name/type (Shopee Only)  
+1.8.3: Make `-itt` can process few commands in one, Courier name logging now supports Tokopedia. (Read new `Logging` at this markdown.), MIT License

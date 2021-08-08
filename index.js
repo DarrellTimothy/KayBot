@@ -92,7 +92,7 @@ client.on('authenticated', (session) => {
 });
 
 // Variable
-const groupID = `6281230126250-1624938457@g.us` // `6281230126250-1624938457@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
+const groupID = `62811325432-1606056231@g.us` // `62811325432-1606056231@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
 const logID = `6281230126250-1624938457@g.us` // `6281230126250-1624938457@g.us` = Test;
 
 client.on('message', async message => {
@@ -233,7 +233,7 @@ client.on('message', async message => {
         message.reply('Please Wait! Processing Data...')
         let base64 = (await message.downloadMedia()).data
         var image = `data:image/jpg;base64,${base64.toString('base64')}`
-        const { data: { text } } = await worker.recognize(image)
+        const { data: { text } } = await scheduler.addJob('recognize', image)
         return message.reply(`${text}`)
     }
 })
