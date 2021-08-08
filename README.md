@@ -1,4 +1,4 @@
-# KayBot 1.8.0
+# KayBot 1.8.1
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -87,4 +87,5 @@ Added Logging on Markdown (available at 1.0.0 but not marked down)
 unwanted message received as the bot's command and returns. Whitelisting added to TDL  
 1.7.1: Added Whitelisting. This bot account is officially private while the source code is still public.  
 1.7.2: Fixed `-post` no argument but with media bug.  
-1.8.0: Added extra note on `post` markdown, Stabilize receiver name log for Shopee, Receiver Logging now supports Tokopedia, `post` will now log time.
+1.8.0: Added extra note on `post` markdown, Stabilize receiver name log for Shopee, Receiver Logging now supports Tokopedia, `post` will now log time.  
+1.8.1: Fixed time logging bug
