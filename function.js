@@ -1,4 +1,4 @@
-const { getNow, getCode, addNow, addNowForTomorrow, getCodeForTomorrow, getNowForTomorrow, setNow, checkShopType, getReceiverName } = require('./codes.js')
+const { getNow, getCode, addNow, addNowForTomorrow, getCodeForTomorrow, getNowForTomorrow, setNow, checkShopType, getReceiverNameShopee, getReceiverNameToped } = require('./codes.js')
 
 
 // Functions 
@@ -14,33 +14,24 @@ const getCaptionForTomorrow = async () => {
     return `${code}${now}`
 }
 
-const getOrderData = async (base64, worker) => {
-    var image = `data:image/jpg;base64,${base64.toString('base64')}`
-
-    const { data: { text } } = await worker.recognize(image)
-
-    if (!checkShopType(text)) return false
-    
-    let data = getReceiverName(text)
-
-    return data
-}
 // Exports
 module.exports = {
-    async getOrderData(base64, worker) {
+    async getOrderData(base64, scheduler) {
         var image = `data:image/jpg;base64,${base64.toString('base64')}`
+        let receiver;
+        const { data : { text }} = await scheduler.addJob('recognize', image)
 
-        const { data: { text } } = await worker.recognize(image)
-
-        if (!checkShopType(text)) return false
-        
-        let data = getReceiverName(text)
-
-        return data
+        if (checkShopType(text)) {
+            receiver = await getReceiverNameToped(text)
+        } else {
+            receiver = await getReceiverNameShopee(text)
+        }
+  
+        return receiver
 
     }, 
 
-    async process(args, media, worker) {
+    async process(args, media) {
         let data = {
             caption: '',
             code: '',

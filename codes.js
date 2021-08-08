@@ -119,22 +119,22 @@ module.exports = {
         return await method.setNow(date, now)
     }, 
 
-    async loadWorker(worker) {
-        await worker.load()
-        await worker.loadLanguage('ind')
-        await worker.initialize('ind')
+    async loadWorker(scheduler, worker1) {
+        await worker1.load()
+        await worker1.loadLanguage('ind+eng')
+        scheduler.addWorker(worker1)
     }, 
 
     checkShopType(text) {
+        text.toLowerCase()
         const arrayText = text.split(" ")
-        if (arrayText.includes('Shopee')) {
             console.log(true, 'SHOP TYPE IS SHOPEE')
             return true
         }
         else return false
     },
 
-    getReceiverName(text) {
+    getReceiverNameShopee(text) {
         const arrayText = text.split("\n")
         let receiverLine = arrayText[2].toString().toLowerCase().split(" ")
         receiverLine = receiverLine.filter(function(item) {
@@ -144,9 +144,47 @@ module.exports = {
             names = names.charAt(0).toUpperCase() + names.slice(1)
         }
         const receiver = receiverLine.join(" ")
-        console.log(receiverLine, 'RL')
-        console.log(receiver, 'R')
         return receiver
+    },
+
+    getReceiverNameToped(text) {
+        const arrayText = text.split("\n")
+        let receiver;
+        for (let i = 0; i < arrayText.length; i++) {
+            let low = arrayText[i].toLowerCase()
+            if (low.includes("kepada")) {
+                receiver = arrayText[i+1]
+            }
+        }
+        let receiverArr = receiver.toLowerCase().split(" ")
+        receiverArr = receiverArr.filter(function(item) {
+            return item !== 'karya' && item !== 'pangan' && item !== 'nusantara' 
+        })
+        let data = receiverArr.join(" ")
+        return data
+    },
+
+    getTodayDate() {
+        
+        function checkTime(i) {
+            if (i < 10) {
+              i = "0" + i;
+            }
+            return i;
+          }
+
+        var today = new Date(moment().tz("Asia/Jakarta").format());
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        m = checkTime(h)
+        m = checkTime(m)
+        time = dd + '/' + mm + '/' + yyyy + " - " + h + ":" + m
+
+        return time 
+
     }
 
 

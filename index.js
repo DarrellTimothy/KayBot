@@ -19,7 +19,7 @@ const keepAlive = require('./server.js')
 const moment = require('moment-timezone');
 
 // Image To Text
-const { createWorker } = require(`tesseract.js`)
+const { createWorker, createScheduler } = require(`tesseract.js`)
 
 // Mongoose
 require(`./mongo.js`)
@@ -31,15 +31,17 @@ const fs = require('fs')
 const SESSION_FILE_PATH = './session.json'
 
 // Codes
-const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow } = require('./codes.js')
-const { getOrderData } = require('./function.js');
+const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow, getTodayDate } = require('./codes.js')
+const { getOrderData} = require('./function.js');
 
 // Summon & Load Worker
+const scheduler = createScheduler()
+
 const worker = createWorker({
     logger: m => console.log(m)
 });
 
-loadWorker(worker)
+
 /* Wake Up Phase */
 // Load session data 
 let sessionData;
@@ -177,8 +179,9 @@ client.on('message', async message => {
             }
         }
         await data.message.reply(confirmMessage, message.from)
-        if (message.hasMedia) receiver = await getOrderData(media.data, worker)
-        await data.message.reply(`Posted ${data.caption}.\nRequested By: ${message.from}\nReceiverᴮᴱᵀᴬ: ${receiver}`, logID)
+        if (message.hasMedia) receiver = await getOrderData(media.data, scheduler)
+        let time = getTodayDate()
+        await data.message.reply(`Posted ${data.caption}.\nRequested By: ${message.from}\nReceiverᴮᴱᵀᴬ: ${receiver}\nTime: ${time}`, logID)
         delete data.message
         console.log(data)
 
@@ -239,5 +242,6 @@ module.exports = {
     client
 }
 
+loadWorker(scheduler, worker)
 client.initialize()
 connect()

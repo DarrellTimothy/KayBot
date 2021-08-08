@@ -1,4 +1,4 @@
-# KayBot 1.7.2
+# KayBot 1.8.0
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -21,7 +21,6 @@ Supports "Info & OTW", "Urgent", And any custom notes.
 
 **To-Do:**
 - Auto-detect "`Now`" on startup
-- Check now for any date
 - Establish Receiver Data To Stable  
  
 **Help**
@@ -40,7 +39,8 @@ Automatic Code & Now Value
 Required if there isn't `Media`  
 Optional if there is `Media`    
 `Post` is highly recommended to execute one-by-one to prevent bugs called `Topology Closed`.  
-`Post` will log to Logging Group if it worked, and if there's media, the "`itt` upgraded" feature will detect the receiver name for better tracing when needed.
+`Post` will log to Logging Group if it worked, and if there's media, the "`itt` upgraded" feature will detect the receiver name for better tracing when needed.  
+`Post` is **highly recommended** to be just executed maximum 2 in the same time. Posting 3 in the same time has small chance to have some "failure", Posting 4 in the same time has big chance of failure, Posting 5+ are almost guaranteed to have a failure.
 
 - Now
 ```-now [flags/date]```  
@@ -86,4 +86,5 @@ Added Logging on Markdown (available at 1.0.0 but not marked down)
 1.7.0: Changed Version Formatting, Fixed **MAJOR** Bug Causing
 unwanted message received as the bot's command and returns. Whitelisting added to TDL  
 1.7.1: Added Whitelisting. This bot account is officially private while the source code is still public.  
-1.7.2: Fixed `-post` no argument but with media bug.
+1.7.2: Fixed `-post` no argument but with media bug.  
+1.8.0: Added extra note on `post` markdown, Stabilize receiver name log for Shopee, Receiver Logging now supports Tokopedia, `post` will now log time.
