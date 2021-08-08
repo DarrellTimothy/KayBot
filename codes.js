@@ -122,37 +122,58 @@ module.exports = {
     async loadWorker(scheduler, worker1) {
         await worker1.load()
         await worker1.loadLanguage('ind+eng')
+        await worker1.initialize('ind+eng')
         scheduler.addWorker(worker1)
     }, 
 
     checkShopType(text) {
         text.toLowerCase()
         const arrayText = text.split(" ")
-            console.log(true, 'SHOP TYPE IS SHOPEE')
+        if (arrayText.includes('tokopedia')) {
             return true
         }
         else return false
     },
 
     getReceiverNameShopee(text) {
+        text = text.toLowerCase()
         const arrayText = text.split("\n")
-        let receiverLine = arrayText[2].toString().toLowerCase().split(" ")
-        receiverLine = receiverLine.filter(function(item) {
-            return item !== 'karyapangannusantara' && item !== 'penerima:' && item !== 'pengirim:' 
-        })
-        for (names in receiverLine) {
-            names = names.charAt(0).toUpperCase() + names.slice(1)
+        let receiverLine;
+        for (let i = 0; i < arrayText.length; i++) {
+            if (arrayText[i].includes("penerima")) {
+                receiverLine = arrayText[i]
+            }
         }
-        const receiver = receiverLine.join(" ")
+        let receiverArr = receiverLine.split(" ");
+        receiverArr = receiverArr.filter(function(item) {
+            return item !== 'penerima:' && item !== 'penerima' && item !== ':'  && item !== 'enerima' && item !== 'enerima:' && item !== 'karyapangannusantara' && item !== 'karya' && item !== 'pangan' && item !== 'nusantara' && item !== 'pengirim' && item !== 'pengirim:' && item !== 'karva'
+        })
+
+        let receiver = receiverArr.join(" ")
+        const arrText = text.split(" ")
+        if (arrText.includes("reg")) {
+            receiver += `\nReguler`
+        } else if (arrText.includes("halu")) {
+            receiver += `\nSiCepat Halu`
+        } else if (arrText.includes("gokil")) {
+            receiver += `\nSiCepat Gokil`
+        } else if (arrText.includes("eco")) {
+            receiver += `\nAnterAja PakEkoAja`
+        } else if (arrText.includes("reguler")) {
+            receiver += `\nJNE Reguler`
+        } else if (arrText.includes("instant")) {
+            receiver += `\nInstant Courier`
+        }
+
         return receiver
     },
 
     getReceiverNameToped(text) {
+        text = text.toLowerCase()
         const arrayText = text.split("\n")
         let receiver;
         for (let i = 0; i < arrayText.length; i++) {
-            let low = arrayText[i].toLowerCase()
-            if (low.includes("kepada")) {
+            if (arrayText[i].includes("kepada")) {
                 receiver = arrayText[i+1]
             }
         }
@@ -161,6 +182,20 @@ module.exports = {
             return item !== 'karya' && item !== 'pangan' && item !== 'nusantara' 
         })
         let data = receiverArr.join(" ")
+
+        const arrText = text.split(" ")
+        if (arrText.includes("gosend")) {
+            data += `\nGoSend`
+        } else if (arrText.includes("anteraja") && arrText.includes("sicepat")) {
+            data += `\nKurir Rekomendasi`
+        } else if (arrText.includes("anteraja")) {
+            data += `\nAnterAja`
+        } else if (arrText.includes("grabexpress")) {
+            data += `\nGrabExpress`
+        } else if (arrText.includes("trucking")) {
+            data += `\nJNE Trucking`
+        } 
+
         return data
     },
 
@@ -179,8 +214,9 @@ module.exports = {
         var yyyy = today.getFullYear();
         var h = today.getHours();
         var m = today.getMinutes();
-        m = checkTime(h)
+        h = checkTime(h)
         m = checkTime(m)
+        
         time = dd + '/' + mm + '/' + yyyy + " - " + h + ":" + m
 
         return time 
