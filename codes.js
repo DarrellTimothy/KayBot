@@ -144,6 +144,7 @@ module.exports = {
                 receiverLine = arrayText[i]
             }
         }
+        if (!receiverLine) return "No Name Detected."
         let receiverArr = receiverLine.split(" ");
         receiverArr = receiverArr.filter(function(item) {
             return item !== 'penerima:' && item !== 'penerima' && item !== ':'  && item !== 'enerima' && item !== 'enerima:' && item !== 'karyapangannusantara' && item !== 'karya' && item !== 'pangan' && item !== 'nusantara' && item !== 'pengirim' && item !== 'pengirim:' && item !== 'karva'

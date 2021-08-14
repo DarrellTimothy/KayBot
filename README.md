@@ -1,4 +1,4 @@
-# KayBot 1.9.0
+# KayBot 1.9.1
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -103,8 +103,8 @@ unwanted message received as the bot's command and returns. Whitelisting added t
 1.8.1: Fixed time logging bug  
 1.8.2: More accurate receiver logging for Shopee (Unwanted words might still apply. Post Logging will now log the courier name/type (Shopee Only)  
 1.8.3: Make `-itt` can process few commands in one, Courier name logging now supports Tokopedia. (Read new `Logging` at this markdown.), MIT License  
-1.9.0: Changed `process()` => `processSPK()`. Server Side Startup will receive arguments, using `--test` will make the group id automatically set to testing group, Added notification when client is disconnected, Added `-cancel`.
-
+1.9.0: Changed `process()` => `processSPK()`. Server Side Startup will receive arguments, using `--test` will make the group id automatically set to testing group, Added notification when client is disconnected, Added `-cancel`.  
+1.9.1: Added notification after post & cancel, & when client is disconnected. Fixed Server Side Bugs: "tyuh bug", Fixed "undefined" receiver by changing it to "No Name Detected"
 
 MIT License:  
 \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-  

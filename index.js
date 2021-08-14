@@ -145,7 +145,7 @@ client.on('message', async message => {
     if (!gate.includes(true)) return
    
 
-    if (!message.body.toLowerCase().startsWith(prefix)) return console.log('tyuh')
+    if (!message.body.toLowerCase().startsWith(prefix)) return
     if (command === 'ping') {
         let now = new Date()
         let timestamp = new Date(message.timestamp * 1000)
@@ -212,6 +212,10 @@ client.on('message', async message => {
         await data.message.reply(`Posted ${data.caption}.\nRequested By: ${message.from}\nReceiverᴮᴱᵀᴬ: ${receiver}\nTime: ${time}`, logID)
         delete data.message
         console.log(data)
+        return notifier.notify({
+            title: `Posted ${data.caption}`,
+            message: `Requested By: ${message.from}`,
+        })
 
     } 
 
@@ -284,14 +288,15 @@ client.on('message', async message => {
         let time = getTodayDate()
         await message.reply('Canceled, Please delete the message.')
         await client.sendMessage(logID, `Cancelled ${query}.\nRequested By: ${message.from}\nTime: ${time}`)
+        return notifier.notify({
+            title: `Cancelled ${query}`,
+            message: `Requested By: ${message.from}`,
+        })
+
     }
 
 
 })
-
-module.exports = {
-    client
-}
 
 loadWorker(scheduler, worker)
 client.initialize()
