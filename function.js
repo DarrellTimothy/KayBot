@@ -1,5 +1,5 @@
-const { getNow, getCode, addNow, addNowForTomorrow, getCodeForTomorrow, getNowForTomorrow, setNow, checkShopType, getReceiverNameShopee, getReceiverNameToped } = require('./codes.js')
-
+const { getNow, getCode, addNow, addNowForTomorrow, getCodeForTomorrow, getNowForTomorrow, setNow, checkShopType, getReceiverNameShopee, getReceiverNameToped, checkNumber  } = require('./codes.js')
+const moment = require('moment-timezone');
 
 // Functions 
 const getCaption = async () => {
@@ -31,7 +31,7 @@ module.exports = {
 
     }, 
 
-    async process(args, media) {
+    async processSPK(args, media) {
         let data = {
             caption: '',
             code: '',
@@ -97,6 +97,26 @@ module.exports = {
         } 
         return data
     },
+
+    async checkCancel(code) {
+        if (!checkNumber(code)) return false
+        var date = code.replace(/[0-9]/g, '');
+        let today = await getCode()
+        let tomorrow = await getCodeForTomorrow()
+        if (date === today) return today
+        else if (date === tomorrow) return tomorrow
+        else return false
+    },
+
+    async checkMessage(msg) {
+        let now = new Date(moment().tz("Asia/Jakarta")).getDate()
+        let tomorrow = new Date(moment().tz("Asia/Jakarta").add(1, 'days')).getDate()
+        let timestamp = new Date(msg.timestamp * 1000).getDate()
+        if (timestamp != now && timestamp != tomorrow) return false
+        else return true
+        
+    }
+
 
 
 }

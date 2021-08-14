@@ -8,7 +8,7 @@ const nowSchema = mongoose.Schema({
     now: {
         type: Number,
         required: true,
-    },
+    }
 })
 
 module.exports = mongoose.model('now', nowSchema)

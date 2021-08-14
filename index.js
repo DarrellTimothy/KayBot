@@ -7,7 +7,7 @@ const { Client } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
 // Functions 
-const { process } = require('./function.js');
+const { processSPK } = require('./function.js');
 
 // Mongo File
 const mongo = require('./mongo.js')
@@ -21,6 +21,10 @@ const moment = require('moment-timezone');
 // Image To Text
 const { createWorker, createScheduler } = require(`tesseract.js`)
 
+// Node Notifier
+const NotificationCenter = require('node-notifier').NotificationCenter
+
+var notifier = new NotificationCenter()
 // Mongoose
 require(`./mongo.js`)
 
@@ -31,8 +35,8 @@ const fs = require('fs')
 const SESSION_FILE_PATH = './session.json'
 
 // Codes
-const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow, getTodayDate } = require('./codes.js')
-const { getOrderData} = require('./function.js');
+const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow, getTodayDate, capital } = require('./codes.js')
+const { getOrderData, checkCancel, checkMessage } = require('./function.js');
 
 // Summon & Load Worker
 const scheduler = createScheduler()
@@ -54,7 +58,7 @@ const client = new Client({
     session: sessionData
 });
 
-
+let me = `6281230126250@c.us`
 
 // Connect To Database Function
 const connect = async () => {
@@ -67,6 +71,12 @@ const connect = async () => {
     })
 }
 
+// Parse Argument & Set Variable
+let groupID = `62811325432-1606056231@g.us`; // `6281230126250-1624938457@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
+var cArgs = process.argv.slice(2)
+if (cArgs[0] === '-test') {
+    groupID = `6281230126250-1624938457@g.us`
+}
 // QR
 client.on('qr', (qr) => {
     qrcode.generate(qr, {small: true})
@@ -75,10 +85,29 @@ client.on('qr', (qr) => {
 
 client.on('ready', () => {
     console.log('KayBot Is Ready To Go!');
+    let subtitle = 'Running Normal Version'
+    if (groupID === `6281230126250-1624938457@g.us`) subtitle = "Running Test Version"
+    notifier.notify({
+        title: "KayBot Is Ready!",
+        message: subtitle,
+    })
 });
+
+setInterval(async function(){ 
+    try {
+    let target = await client.getChatById("639276827506@c.us")
+    target.sendStateRecording()
+    } catch (error) {
+        
+    }
+}, 10000);
 
 client.on('disconnected', () => {
     console.log('Client has disconnected')
+    notifier.notify({
+        title: "KayBot Has Disconnected!",
+        message: "Please Reconnect.",
+    })
 })
 
 // Save session values to the file upon successful auth
@@ -92,8 +121,7 @@ client.on('authenticated', (session) => {
 });
 
 // Variable
-const groupID = `62811325432-1606056231@g.us` // `62811325432-1606056231@g.us` = Test; `62811325432-1606056231@g.us` = KPN 
-const logID = `6281230126250-1624938457@g.us` // `6281230126250-1624938457@g.us` = Test;
+
 
 client.on('message', async message => {
 
@@ -104,11 +132,11 @@ client.on('message', async message => {
 
     const command = args.shift().toLowerCase() 
 
+    const logID = `6281230126250-1624938457@g.us` // `6281230126250-1624938457@g.us` = Test;
 
     // Security Check.
    
     let gate = []
-
     if (message.from === `6281330900175@c.us`) gate.push(true)
     if (message.from === `62811325432@c.us`) gate.push(true)
     if (message.from === `6281230126250@c.us`) gate.push(true)
@@ -148,9 +176,9 @@ client.on('message', async message => {
         // Check Media--
         if (message.hasMedia) {
             media = await message.downloadMedia()
-            data = await process(args, media, worker)
+            data = await processSPK(args, media, worker)
         } else {
-            data = await process(args)
+            data = await processSPK(args)
         }
         
         const confirmMessage = `Successfully posted ${data.caption}\nType: ${data.code}`;
@@ -229,13 +257,36 @@ client.on('message', async message => {
         return message.reply(`See full markdown at GitHub:\nhttps://github.com/DarrellTimothy/KayBot#readme`)
     }
 
-    if (command == 'itt') {
+    if (command === 'itt') {
         message.reply('Please Wait! Processing Data...')
         let base64 = (await message.downloadMedia()).data
         var image = `data:image/jpg;base64,${base64.toString('base64')}`
         const { data: { text } } = await scheduler.addJob('recognize', image)
         return message.reply(`${text}`)
     }
+
+    if (command === 'cancel') {
+        message.reply('Cancelling...')
+        let tlc = args[0].toLowerCase();
+        let query = capital(tlc)
+        if (!args) return message.reply('Error: Argument Needed.')
+        let value = await checkCancel(query)
+        if (!value) return message.reply('Error: Argument Not Valid')
+
+        let msg = await client.searchMessages(query, {chatId: groupID, limit: 1})
+        let msgArg = msg[0].body.split(" ")
+        if (msgArg[0] != query) return message.reply("Not Found")
+        let check = await checkMessage(msg[0])
+        if (!check) return message.reply(`Error: No ${query} Founded During Tomorrow & Today`)
+        if (msg[0].from != me) return message.reply(`Error: Message Is Not From Me`)
+        await msg[0].reply(`${query} Cancel.`)
+        await msg[0].delete(true)
+        let time = getTodayDate()
+        await message.reply('Canceled, Please delete the message.')
+        await client.sendMessage(logID, `Cancelled ${query}.\nRequested By: ${message.from}\nTime: ${time}`)
+    }
+
+
 })
 
 module.exports = {

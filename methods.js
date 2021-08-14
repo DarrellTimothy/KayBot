@@ -52,7 +52,7 @@ module.exports.setNow = async (date, now) => {
                 date
             }, {
                 date,
-                now, 
+                now
             }, {
                 upsert: true,
                 new: true                

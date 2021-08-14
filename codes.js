@@ -221,7 +221,16 @@ module.exports = {
 
         return time 
 
-    }
+    },
+
+    capital(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+
+    checkNumber(str){
+        var regexp = /\d/g;
+        return regexp.test(str);
+      }
 
 
 

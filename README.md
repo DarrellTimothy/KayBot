@@ -1,4 +1,4 @@
-# KayBot 1.8.3
+# KayBot 1.9.0
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -39,7 +39,13 @@ Automatic Code & Now Value
 Required if there isn't `Media`  
 Optional if there is `Media`    
 `Post` is highly recommended to execute one-by-one to prevent bugs called `Topology Closed`.   
-`Post` is **highly recommended** to be just executed maximum 2 in the same time. Posting 3 in the same time has small chance to have some "failure", Posting 4 in the same time has big chance of failure, Posting 5+ are almost guaranteed to have a failure.
+`Post` is **highly recommended** to be just executed maximum 2 in the same time. Posting 3 in the same time has small chance to have some "failure", Posting 4 in the same time has big chance of failure, Posting 5+ are almost guaranteed to have a failure.  
+
+- Cancel  
+```-cancel <query>```  
+Will delete a post from `groupID`  
+
+`Query` should be like the same formatting as caption, Either today or tomorrow, and have number on it.   
 
 - Logging (Post)  
 Logging to `logID` (`Post` Command)  
@@ -96,7 +102,9 @@ unwanted message received as the bot's command and returns. Whitelisting added t
 1.8.0: Added extra note on `post` markdown, Stabilize receiver name log for Shopee, Receiver Logging now supports Tokopedia, `post` will now log time.  
 1.8.1: Fixed time logging bug  
 1.8.2: More accurate receiver logging for Shopee (Unwanted words might still apply. Post Logging will now log the courier name/type (Shopee Only)  
-1.8.3: Make `-itt` can process few commands in one, Courier name logging now supports Tokopedia. (Read new `Logging` at this markdown.), MIT License
+1.8.3: Make `-itt` can process few commands in one, Courier name logging now supports Tokopedia. (Read new `Logging` at this markdown.), MIT License  
+1.9.0: Changed `process()` => `processSPK()`. Server Side Startup will receive arguments, using `--test` will make the group id automatically set to testing group, Added notification when client is disconnected, Added `-cancel`.
+
 
 MIT License:  
 \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-  
