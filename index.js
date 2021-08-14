@@ -25,6 +25,8 @@ const { createWorker, createScheduler } = require(`tesseract.js`)
 const NotificationCenter = require('node-notifier').NotificationCenter
 
 var notifier = new NotificationCenter()
+
+module.exports = { notifier }
 // Mongoose
 require(`./mongo.js`)
 
@@ -176,9 +178,17 @@ client.on('message', async message => {
         // Check Media--
         if (message.hasMedia) {
             media = await message.downloadMedia()
+            try {
             data = await processSPK(args, media, worker)
-        } else {
+            } catch (error) {
+                message.reply(`An Error Occurred:\n${error.message}`)
+            }
+        } else { 
+        try { 
             data = await processSPK(args)
+        } catch (error) {
+            message.reply(`An Error Occurred:\n${error.message}`)
+        }
         }
         
         const confirmMessage = `Successfully posted ${data.caption}\nType: ${data.code}`;
