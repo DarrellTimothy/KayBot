@@ -34,7 +34,7 @@ require(`./mongo.js`)
 const fs = require('fs')
 
 // Session File Path
-const SESSION_FILE_PATH = './session.json'
+const SESSION_FILE_PATH = './Data/session.json'
 
 // Codes
 const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow, getTodayDate, capital } = require('./codes.js')
@@ -311,3 +311,4 @@ client.on('message', async message => {
 loadWorker(scheduler, worker)
 client.initialize()
 connect()
+
