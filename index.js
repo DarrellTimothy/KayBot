@@ -345,7 +345,18 @@ client.on('message', async message => {
         })
     }
 
-
+    if (command === 'search') {
+        if (!args) return message.reply('Error: Argument Needed.')
+        message.reply("Searching...")
+        let log = await client.searchMessages(args.join(" "), {chatId: groupID, limit: 1})
+        if (log[0]) {
+            let spk = await log[0].getQuotedMessage()
+            log[0].reply(`Here's The Log (Quoted Message)`, message.from)
+            spk.reply(`Here's The SPK`, message.from)
+        } else {
+            return message.reply(`Error, Not Found.`)
+        }
+    }
 })
 
 loadWorker(scheduler, worker)

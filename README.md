@@ -1,4 +1,4 @@
-# KayBot 1.10.0
+# KayBot 1.10.1
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -49,10 +49,17 @@ Will delete a post from `groupID`
 
 `Query` should be like the same formatting as caption, Either today or tomorrow, and have number on it.   
 
-- Reschedule  
+- Reschedule   
+```-reschedule <query> || -rs <query>```  
 Reschedule A Post For Tomorrow, Similiar to `-cancel` combined with `-post -t`.  
 
-`Query` should be like the same formatting as caption, Either today only, and have number on it.     
+`Query` should be like the same formatting as caption, Either today only, and have number on it.       
+
+- Search
+```-search <query>```  
+Search the log and the spk based on the receiver's name.
+
+`Query` should be a receiver name. If there are no result, it's either system logging failure or there are no actually.  
 
 
 - Logging (Post)  
@@ -114,7 +121,8 @@ unwanted message received as the bot's command and returns. Whitelisting added t
 1.9.0: Changed `process()` => `processSPK()`. Server Side Startup will receive arguments, using `--test` will make the group id automatically set to testing group, Added notification when client is disconnected, Added `-cancel`.  
 1.9.1: Added notification after post & cancel, & when client is disconnected. Fixed Server Side Bugs: "tyuh bug", Fixed "undefined" receiver by changing it to "No Name Detected"  
 1.9.2: Removed sending message when client error occurred. On 'Topology Closed' error occured, now will send message on whatsapp.      
-1.10.0: Fixed Urgent Misscode, Added `-r` for "Resi Stuck | Pending" & `-s` for "Resi Skip", Fixed Argument Check Failed On `-cancel`, Added `-reschedule`. 
+1.10.0: Fixed Urgent Misscode, Added `-r` for "Resi Stuck | Pending" & `-s` for "Resi Skip", Fixed Argument Check Failed On `-cancel`, Added `-reschedule`.   
+1.10.1: Fixed `-reschedule` guide on markdown, Added `-search`.
 
 MIT License:  
 \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-  
