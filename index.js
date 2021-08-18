@@ -37,8 +37,8 @@ const fs = require('fs')
 const SESSION_FILE_PATH = './Data/session.json'
 
 // Codes
-const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow, getTodayDate, capital } = require('./codes.js')
-const { getOrderData, checkCancel, checkMessage } = require('./function.js');
+const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow, getTodayDate, capital, addNowForTomorrow } = require('./codes.js')
+const { getOrderData, checkCancel, checkMessage, getCaptionForTomorrow } = require('./function.js');
 
 // Summon & Load Worker
 const scheduler = createScheduler()
@@ -280,17 +280,17 @@ client.on('message', async message => {
     }
 
     if (command === 'cancel') {
+        if (!args) return message.reply('Error: Argument Needed.')
         message.reply('Cancelling...')
         let tlc = args[0].toLowerCase();
         let query = capital(tlc)
-        if (!args) return message.reply('Error: Argument Needed.')
-        let value = await checkCancel(query)
+        let value = await checkCancel(query, false)
         if (!value) return message.reply('Error: Argument Not Valid')
 
         let msg = await client.searchMessages(query, {chatId: groupID, limit: 1})
         let msgArg = msg[0].body.split(" ")
         if (msgArg[0] != query) return message.reply("Not Found")
-        let check = await checkMessage(msg[0])
+        let check = await checkMessage(msg[0], false)
         if (!check) return message.reply(`Error: No ${query} Founded During Tomorrow & Today`)
         if (msg[0].from != me) return message.reply(`Error: Message Is Not From Me`)
         await msg[0].reply(`${query} Cancel.`)
@@ -302,7 +302,47 @@ client.on('message', async message => {
             title: `Cancelled ${query}`,
             message: `Requested By: ${message.from}`,
         })
+    }
 
+    if (command === 'reschedule' || command === 'rs') {
+        if (!args) return message.reply('Error: Argument Needed.')
+        message.reply("Rescheduling...")
+        let tlc = args[0].toLowerCase();
+        let query = capital(tlc)
+        let value = await checkCancel(query, true)
+        if (!value) return message.reply('Error: Argument Not Valid')
+        let msg = await client.searchMessages(query, {chatId: groupID, limit: 1})
+        let msgArg = msg[0].body.split(" ")
+        if (msgArg[0] != query) return message.reply("Not Found")
+        let check = await checkMessage(msg[0], true)
+        if (!check) return message.reply(`Error: No ${query} Founded During Today`)
+        if (msg[0].from != me) return message.reply(`Error: Message Is Not From Me`)
+        let processCaption;
+        if (msgArg[1]) {
+            msgArg.shift()
+            processCaption = msgArg.join(" ")
+        } else {
+            processCaption = " "
+        }
+        let code = await getCaptionForTomorrow()
+        await addNowForTomorrow()
+        await msg[0].reply(`${query} Rescheduled => ${code}`)    
+        let caption = `${code} ${processCaption}\n*Reschedule* From ${query}.`
+        if (msg[0]) {
+            media = await msg[0].downloadMedia()
+            client.sendMessage(groupID, `${caption}`, {
+                media: media
+            })
+        } else {
+            client.sendMessage(groupID, `${caption}`)
+        }
+        let time = getTodayDate()
+        await message.reply(`Success Rescheduled ${query} to ${code}`)
+        await client.sendMessage(logID, `Rescheduled ${query}.\nRequested By: ${message.from}\nTime: ${time}`)
+        return notifier.notify({
+            title: `Rescheduled ${query}`,
+            message: `Requested By: ${message.from}`,
+        })
     }
 
 

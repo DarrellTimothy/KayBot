@@ -84,7 +84,9 @@ module.exports = {
             })
             data.caption += ' COD'
             data.code += 'COD'
-        } else if (flags.includes('-u')) {
+        } 
+        
+        if (flags.includes('-u')) {
             args = args.filter(function(item) {
                 return item !== '-u'
             })
@@ -92,29 +94,51 @@ module.exports = {
             data.code += 'U'
         }
 
+        if (flags.includes("-r")) {
+            args = args.filter(function(item) {
+                return item !== '-r'
+            })
+            data.caption += ' Resi Stuck | Pending'
+            data.code += 'R'
+        }
+        if (flags.includes("-s")) {
+            args = args.filter(function(item) {
+                return item !== '-s'
+            })
+            data.caption += ' Resi Skip'
+            data.code += 'S'
+        }
+
+
         if (args) {
             data.order = args.join(" ")
         } 
         return data
     },
 
-    async checkCancel(code) {
+    async checkCancel(code, todayOnly) {
         if (!checkNumber(code)) return false
         var date = code.replace(/[0-9]/g, '');
         let today = await getCode()
         let tomorrow = await getCodeForTomorrow()
         if (date === today) return today
-        else if (date === tomorrow) return tomorrow
+        else if (date === tomorrow && !todayOnly) return tomorrow
         else return false
     },
 
-    async checkMessage(msg) {
+    async checkMessage(msg, todayOnly) {
         let now = new Date(moment().tz("Asia/Jakarta")).getDate()
         let tomorrow = new Date(moment().tz("Asia/Jakarta").add(1, 'days')).getDate()
         let timestamp = new Date(msg.timestamp * 1000).getDate()
-        if (timestamp != now && timestamp != tomorrow) return false
+        if (timestamp != now && timestamp != tomorrow && !todayOnly) return false
+        else if (timestamp != now && todayOnly) return false
         else return true
-        
+    },
+
+    async getCaptionForTomorrow() {
+        let code = await getCodeForTomorrow()
+        let now = await getNowForTomorrow()
+        return `${code}${now}`
     }
 
 
