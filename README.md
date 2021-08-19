@@ -1,4 +1,4 @@
-# KayBot 1.10.1
+# KayBot 1.10.2
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -36,7 +36,11 @@ Automatic Code & Now Value
 -o (Put "OTW" At Caption After Code (Instant Courier))
 -u (Put "Urgent" At Caption After Code)   
 -r (Put "Resi Stuck | Pending" After Code)  
--s (Put "Resi Skip" After Code)
+-s (Put "Resi Skip" After Code)  
+-m (Put "Multiple Order" After Code)  
+-d (Put "Double Order" After Code)    
+-c (Put "Please Check" After Code)
+
 `Extra Note`:  
 Required if there isn't `Media`  
 Optional if there is `Media`    
@@ -122,7 +126,8 @@ unwanted message received as the bot's command and returns. Whitelisting added t
 1.9.1: Added notification after post & cancel, & when client is disconnected. Fixed Server Side Bugs: "tyuh bug", Fixed "undefined" receiver by changing it to "No Name Detected"  
 1.9.2: Removed sending message when client error occurred. On 'Topology Closed' error occured, now will send message on whatsapp.      
 1.10.0: Fixed Urgent Misscode, Added `-r` for "Resi Stuck | Pending" & `-s` for "Resi Skip", Fixed Argument Check Failed On `-cancel`, Added `-reschedule`.   
-1.10.1: Fixed `-reschedule` guide on markdown, Added `-search`.
+1.10.1: Fixed `-reschedule` guide on markdown, Added `-search`.  
+1.10.2: Added `-m` (Multiple Order) & `-c` (Check) flag For `-post`
 
 MIT License:  
 \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-  

@@ -109,6 +109,29 @@ module.exports = {
             data.code += 'S'
         }
 
+        if (flags.includes("-d")) {
+            args = args.filter(function(item) {
+                return item !== '-d'
+            })
+            data.caption += ' Double Order'
+            data.code += 'DO'
+        } else if (flags.includes('-m')) {
+            args = args.filter(function(item) {
+                return item !== '-m'
+            })
+            data.caption += ' Multiple Order'
+            data.code += 'MO'
+        } 
+        
+        if (flags.includes("-c")) {
+            args = args.filter(function(item) {
+                return item !== '-c'
+            })
+            data.caption += ' Please Check'
+            data.code += 'C'
+        } 
+
+
 
         if (args) {
             data.order = args.join(" ")
