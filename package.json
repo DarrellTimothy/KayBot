@@ -21,7 +21,7 @@
     "bluebird": "^3.5.1",
     "chalk": "^4.1.1",
     "express": "*",
-    "fs": "*",
+    "fs": "fs@0.0.1-security",
     "moment-timezone": "^0.5.33",
     "mongoose": "^5.13.3",
     "node-notifier": "^10.0.0",
