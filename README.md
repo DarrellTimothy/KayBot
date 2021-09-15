@@ -1,4 +1,4 @@
-# KayBot 1.10.3
+# KayBot 1.11.0
 
 **Features:**
 - Post 'SPK' Faster & Efficiently With Flags
@@ -128,7 +128,8 @@ unwanted message received as the bot's command and returns. Whitelisting added t
 1.10.0: Fixed Urgent Misscode, Added `-r` for "Resi Stuck | Pending" & `-s` for "Resi Skip", Fixed Argument Check Failed On `-cancel`, Added `-reschedule`.   
 1.10.1: Fixed `-reschedule` guide on markdown, Added `-search`.  
 1.10.2: Added `-m` (Multiple Order) & `-c` (Check) flag For `-post`
-1.10.3: Release To Heroku
+1.10.3: Release To Heroku  
+1.11.0: Updated Whitelist, Bot will send recording state if it online to every whitelisted contacts.
 
 MIT License:  
 \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-  

@@ -34,7 +34,7 @@ require(`./mongo.js`)
 const fs = require('fs')
 
 // Session File Path
-const SESSION_FILE_PATH = './Data/session.json'
+const SESSION_FILE_PATH = './Data/session2.json'
 
 // Codes
 const { setNow, getNow, getNowForTomorrow, loadWorker, getSpecificNow, getTodayDate, capital, addNowForTomorrow } = require('./codes.js')
@@ -57,7 +57,7 @@ if(fs.existsSync(SESSION_FILE_PATH)) {
 
 // Summon Client
 const client = new Client({
-    session: sessionData
+    session: sessionData,
 });
 
 let me = `6281230126250@c.us`
@@ -96,13 +96,17 @@ client.on('ready', () => {
 });
 
 setInterval(async function(){ 
+    let targets = [`639276827506@c.us`, `6281330900175@c.us`, `62811325432@c.us`, `6281230126250@c.us`, `6282143316219@c.us`,`6281330900157@c.us`, `6285850486682@c.us`, `6289653596211@c.us`]
+    for (let i; i < targets.length; i++) {
     try {
-    let target = await client.getChatById("639276827506@c.us")
+    let target = await client.getChatById(targets[i])
     target.sendStateRecording()
-    } catch (error) {
-        
-    }
+    } catch (error) {}
+}
 }, 10000);
+
+
+
 
 client.on('disconnected', () => {
     console.log('Client has disconnected')
@@ -144,6 +148,8 @@ client.on('message', async message => {
     if (message.from === `6281230126250@c.us`) gate.push(true)
     if (message.from === `6282143316219@c.us`) gate.push(true)
     if (message.from === `6281330900157@c.us`) gate.push(true)
+    if (message.from === `6285850486682@c.us`) gate.push(true)
+    if (message.from === `6289653596211@c.us`) gate.push(true)
     if (!gate.includes(true)) return
    
 

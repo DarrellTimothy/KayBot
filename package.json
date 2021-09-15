@@ -29,6 +29,6 @@
     "sqlite3": "^5.0.2",
     "tesseract.js": "^2.1.4",
     "tree-cli": "^0.6.7",
-    "whatsapp-web.js": "^1.13.2"
+    "whatsapp-web.js": "^1.14.1"
   }
 }
